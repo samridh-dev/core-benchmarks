@@ -28,13 +28,15 @@ with open(filename, 'w') as f:
             measured_times = []
 
             # Change threadsize
-            subprocess.run([generate_script, str(threadsize), str(elementsize)], check=True)
+            subprocess.run(
+              [generate_script, str(threadsize), str(elementsize)], check=True)
 
             for i in range(iterations):
                 beg = time.perf_counter()
 
                 # Run desired program
-                result = subprocess.run([run_script], stderr=subprocess.PIPE, text=True)
+                result = subprocess.run(
+                  [run_script], stderr=subprocess.PIPE, text=True)
 
                 end = time.perf_counter()
                 measured_times.append(end - beg)
@@ -45,7 +47,13 @@ with open(filename, 'w') as f:
                 bar_length = 64
                 filled_length = int(bar_length * current_step // total_steps)
                 bar = '█' * filled_length + '-' * (bar_length - filled_length)
-                print(f"\033[92m\rSize: {elementsize:.1e}, Thread: {threadsize}, Iteration: {i + 1}/{iterations} [{bar}] {progress:.1f}%\033[0m", end='', flush=True)
+
+                print(
+                    f"\033[92m\rSize: {elementsize:.1e},"                     + 
+                    f" Thread: {threadsize},"                                 +
+                    f" Iteration: {i + 1}/{iterations}"                       +
+                    f" [{bar}] {progress:.1f}%\033[0m", end='', flush=True
+                )
 
             average_time = sum(measured_times) / len(measured_times)
             f.write(f" - {threadsize} : {average_time:.5f}\n")
