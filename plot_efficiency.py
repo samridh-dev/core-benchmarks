@@ -19,21 +19,23 @@ def plot_efficiency(efficiency_dict):
     for size, efficiency_data in efficiency_dict.items():
         threads = [data[0] for data in efficiency_data]
         efficiencies = [data[1] for data in efficiency_data]
-        plt.plot(threads, efficiencies, label=f"Size {size}", marker='o', linestyle='-', linewidth=2, markersize=8)
-
+        plt.plot(threads, efficiencies, label=f"Size {size}", 
+                 marker='o', linestyle='-', linewidth=2, markersize=8)
     
     plt.title('Efficiency vs. Number of Threads for Different Sizes')
     plt.xlabel('Number of Threads', fontsize=14)
     plt.ylabel('Speedup', fontsize=14)
-    plt.legend(title='Data Size', title_fontsize='13', fontsize='11', loc='best')
+    plt.legend(title='Data Size', title_fontsize='13', 
+               fontsize='11', loc='best')
     plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='grey')
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
     plt.tight_layout()
     plt.savefig("efficiency.png")
 
+filename = "profile.dat"
 
-data_dict = parse_file("profile.dat")
+data_dict = parse_file(filename)
 efficiency_dict = calculate_efficiency(data_dict)
 plot_efficiency(efficiency_dict)
 
