@@ -1,21 +1,18 @@
- #!/usr/bin/env python3
-import subprocess
-import os
-import time
-
 # --------------------------------------------------------------------------- #
 
 # parameters
-
-thread_arr = range(1,13)
-element_arr = [100000000,1000000000]
+thread_arr = range(1, 13)
+element_arr = [100000000]
 iterations = 10
-
 filename = "profile.dat"
-generate_script= "./example/make.sh"
-run_script="./example/run.sh"
+generate_script = "./example/make.sh"
+run_script = "./example/run.sh"
 
 # --------------------------------------------------------------------------- #
+
+import subprocess
+import os
+import time
 
 total_steps = len(element_arr) * len(thread_arr) * iterations
 current_step = 0
@@ -29,14 +26,16 @@ with open(filename, 'w') as f:
 
             # Change threadsize
             subprocess.run(
-              [generate_script, str(threadsize), str(elementsize)], check=True)
+                [generate_script, str(threadsize), str(elementsize)],
+                check=True
+            )
 
             for i in range(iterations):
                 beg = time.perf_counter()
 
                 # Run desired program
                 result = subprocess.run(
-                  [run_script], stderr=subprocess.PIPE, text=True)
+                    [run_script], stderr=subprocess.PIPE, text=True)
 
                 end = time.perf_counter()
                 measured_times.append(end - beg)
